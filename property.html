@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Property Details</title>
 
   <style>
@@ -24,87 +24,52 @@
       background: white;
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    .property-img {
+    img {
       width: 100%;
       height: 350px;
       object-fit: cover;
-      border-radius: 6px;
-      margin-bottom: 15px;
+      border-radius: 8px;
     }
 
-    h2 {
-      margin-top: 0;
+    .info p {
+      margin: 8px 0;
     }
 
-    .details p {
-      margin: 6px 0;
-    }
-
-    .tag {
-      display: inline-block;
-      background: #e5e7eb;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 14px;
-      margin-right: 5px;
-      margin-top: 5px;
-    }
-
-    .agent-box {
-      background: #f1f5f9;
-      padding: 15px;
-      border-radius: 6px;
+    .whatsapp-btn {
+      display: block;
       margin-top: 20px;
-    }
-
-    .agent-box button {
-      margin-top: 10px;
-      padding: 10px;
-      width: 100%;
+      padding: 12px;
       background: #25d366;
-      border: none;
       color: white;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 6px;
       font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .reviews {
-      margin-top: 30px;
-    }
-
-    .reviews h3 {
-      margin-bottom: 10px;
-    }
-
-    .review {
-      background: #f9fafb;
-      padding: 10px;
-      border-radius: 5px;
-      margin-bottom: 8px;
-      font-size: 14px;
     }
 
     textarea {
       width: 100%;
       padding: 10px;
-      resize: none;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      margin-top: 10px;
     }
 
-    .add-review-btn {
-      margin-top: 10px;
-      padding: 10px;
+    button {
+      padding: 10px 15px;
       background: #2563eb;
       color: white;
       border: none;
-      border-radius: 5px;
+      margin-top: 10px;
       cursor: pointer;
-      width: 100%;
+      border-radius: 5px;
+    }
+
+    .review {
+      background: #f1f5f9;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
     }
   </style>
 </head>
@@ -112,111 +77,93 @@
 <body>
 
 <header>
-  <h1>Property Details</h1>
+  <h1 id="title"></h1>
 </header>
 
 <div class="container">
+  <img id="image">
 
-  <img id="propertyImage" class="property-img" />
-
-  <h2 id="propertyTitle"></h2>
-  <p><strong>Price:</strong> <span id="propertyPrice"></span></p>
-  <p><strong>Address:</strong> <span id="propertyAddress"></span></p>
-
-  <div class="details">
+  <div class="info">
+    <p><strong>Address:</strong> <span id="address"></span></p>
     <p><strong>Rooms:</strong> <span id="rooms"></span></p>
-    <p><strong>Bathrooms/Toilets:</strong> <span id="bathrooms"></span></p>
-    <p><strong>Car Park:</strong> <span id="parking"></span></p>
-    <p><strong>Water:</strong> <span id="water"></span></p>
-    <p><strong>Electricity:</strong> <span id="electricity"></span></p>
+    <p><strong>Bathrooms:</strong> <span id="bathrooms"></span></p>
     <p><strong>Gated:</strong> <span id="gated"></span></p>
-    <p><strong>Gateman:</strong> <span id="gateman"></span></p>
+    <p><strong>Parking Space:</strong> <span id="parking"></span></p>
+    <p><strong>Running Water:</strong> <span id="water"></span></p>
+    <p><strong>Electricity:</strong> <span id="electricity"></span></p>
+    <p><strong>Agent Comment:</strong> <span id="comment"></span></p>
   </div>
 
-  <div class="agent-box">
-    <h3>Agent Information</h3>
-    <p><strong>Name:</strong> <span id="agentName"></span></p>
-    <p id="agentComment"></p>
+  <a id="whatsapp" class="whatsapp-btn" target="_blank">
+    Contact Agent on WhatsApp
+  </a>
 
-    <button id="whatsappBtn">Contact Agent on WhatsApp</button>
-  </div>
+  <h3>Reviews</h3>
+  <textarea id="reviewText" placeholder="Write a review..."></textarea>
+  <button onclick="addReview()">Submit Review</button>
 
-  <div class="reviews">
-    <h3>Reviews</h3>
-    <div id="reviewsList"></div>
-
-    <textarea id="reviewInput" rows="3" placeholder="Write a review about the property or agent..."></textarea>
-    <button class="add-review-btn" onclick="addReview()">Submit Review</button>
-  </div>
-
+  <div id="reviews"></div>
 </div>
 
 <script>
-  // Sample property data (normally comes from backend)
-  const property = {
-    id: 1,
-    title: "2 Bedroom Flat",
-    price: "₦600,000 / year",
-    address: "Magboro, Ogun State",
-    image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
-    rooms: 2,
-    bathrooms: 2,
-    parking: "Yes",
-    water: "Running Borehole",
-    electricity: "Stable",
-    gated: "Yes",
-    gateman: "Available",
-    agent: "Mr. Ade",
-    phone: "08012345678",
-    agentComment: "Very neat apartment in a calm and secure environment."
-  };
+  const properties = [
+    {
+      title: "2 Bedroom Flat",
+      address: "Magboro, Ogun State",
+      rooms: 2,
+      bathrooms: 2,
+      gated: "Yes",
+      parking: "2 Cars",
+      water: "Available",
+      electricity: "Stable",
+      comment: "Very calm environment",
+      agentPhone: "08012345678",
+      image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994"
+    },
+    {
+      title: "3 Bedroom Duplex",
+      address: "Mowe, Ogun State",
+      rooms: 3,
+      bathrooms: 3,
+      gated: "Yes",
+      parking: "3 Cars",
+      water: "Available",
+      electricity: "Stable",
+      comment: "Perfect for families",
+      agentPhone: "08198765432",
+      image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be"
+    }
+  ];
 
-  // Populate page
-  document.getElementById("propertyImage").src = property.image;
-  document.getElementById("propertyTitle").textContent = property.title;
-  document.getElementById("propertyPrice").textContent = property.price;
-  document.getElementById("propertyAddress").textContent = property.address;
-  document.getElementById("rooms").textContent = property.rooms;
-  document.getElementById("bathrooms").textContent = property.bathrooms;
-  document.getElementById("parking").textContent = property.parking;
-  document.getElementById("water").textContent = property.water;
-  document.getElementById("electricity").textContent = property.electricity;
-  document.getElementById("gated").textContent = property.gated;
-  document.getElementById("gateman").textContent = property.gateman;
-  document.getElementById("agentName").textContent = property.agent;
-  document.getElementById("agentComment").textContent = property.agentComment;
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  const house = properties[id];
 
-  document.getElementById("whatsappBtn").onclick = function () {
-    window.open(
-      `https://wa.me/234${property.phone.substring(1)}?text=Hello,%20I%20am%20interested%20in%20your%20${property.title}`,
-      "_blank"
-    );
-  };
+  document.getElementById("title").textContent = house.title;
+  document.getElementById("image").src = house.image;
+  document.getElementById("address").textContent = house.address;
+  document.getElementById("rooms").textContent = house.rooms;
+  document.getElementById("bathrooms").textContent = house.bathrooms;
+  document.getElementById("gated").textContent = house.gated;
+  document.getElementById("parking").textContent = house.parking;
+  document.getElementById("water").textContent = house.water;
+  document.getElementById("electricity").textContent = house.electricity;
+  document.getElementById("comment").textContent = house.comment;
 
-  // Reviews
-  const reviewKey = "reviews_" + property.id;
-
-  function loadReviews() {
-    const reviews = JSON.parse(localStorage.getItem(reviewKey)) || [];
-    const list = document.getElementById("reviewsList");
-    list.innerHTML = "";
-    reviews.forEach(r => {
-      list.innerHTML += `<div class="review">${r}</div>`;
-    });
-  }
+  document.getElementById("whatsapp").href =
+    `https://wa.me/234${house.agentPhone.substring(1)}`;
 
   function addReview() {
-    const input = document.getElementById("reviewInput");
-    if (input.value.trim() === "") return;
+    const text = document.getElementById("reviewText").value;
+    if (!text) return;
 
-    const reviews = JSON.parse(localStorage.getItem(reviewKey)) || [];
-    reviews.push(input.value);
-    localStorage.setItem(reviewKey, JSON.stringify(reviews));
-    input.value = "";
-    loadReviews();
+    const div = document.createElement("div");
+    div.className = "review";
+    div.textContent = text;
+
+    document.getElementById("reviews").appendChild(div);
+    document.getElementById("reviewText").value = "";
   }
-
-  loadReviews();
 </script>
 
 </body>
