@@ -250,8 +250,6 @@
 
 
     const listings = document.getElementById("listings");
-    const searchInput = document.getElementById("searchInput");
-    const typeFilter = document.getElementById("typeFilter");
 
     function displayHouses(data) {
       listings.innerHTML = "";
@@ -301,7 +299,8 @@ stateFilter.addEventListener("change", filterHouses);
 lgaFilter.addEventListener("input", filterHouses);
 townFilter.addEventListener("input", filterHouses);
 propertyTypeFilter.addEventListener("change", filterHouses);
-    
+
+    displayHouses(houses);
   </script>
 
 </body>
