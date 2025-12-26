@@ -217,35 +217,43 @@
 
 <script>
   const properties = [
-    {
-      id: 0,
-      title: "2 Bedroom Flat",
-      address: "Magboro, Ogun State",
-      rooms: 2,
-      bathrooms: 2,
-      gated: "Yes",
-      parking: "2 Cars",
-      water: "Available",
-      electricity: "Stable",
-      comment: "Very calm environment",
-      agentPhone: "08012345678",
-      image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994"
-    },
-    {
-      id: 1,
-      title: "3 Bedroom Duplex",
-      address: "Mowe, Ogun State",
-      rooms: 3,
-      bathrooms: 3,
-      gated: "Yes",
-      parking: "3 Cars",
-      water: "Available",
-      electricity: "Stable",
-      comment: "Perfect for families",
-      agentPhone: "08198765432",
-      image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be"
-    }
-  ];
+  {
+    id: 0,
+    title: "2 Bedroom Flat",
+    address: "Magboro, Ogun State",
+    rooms: 2,
+    bathrooms: 2,
+    gated: "Yes",
+    parking: "2 Cars",
+    water: "Available",
+    electricity: "Stable",
+    comment: "Very calm environment",
+    agentPhone: "08012345678",
+    images: [
+      "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+    ]
+  },
+  {
+    id: 1,
+    title: "3 Bedroom Duplex",
+    address: "Mowe, Ogun State",
+    rooms: 3,
+    bathrooms: 3,
+    gated: "Yes",
+    parking: "3 Cars",
+    water: "Available",
+    electricity: "Stable",
+    comment: "Perfect for families",
+    agentPhone: "08198765432",
+    images: [
+      "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+    ]
+  }
+];
 
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
