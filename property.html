@@ -240,16 +240,35 @@
   }
 
   function addReview() {
-    const text = document.getElementById("reviewText").value.trim();
-    if (!text) return;
+  const text = document.getElementById("reviewText").value;
+  if (!text) return;
 
+  const key = `reviews_property_${id}`;
+  const savedReviews = JSON.parse(localStorage.getItem(key)) || [];
+
+  savedReviews.push(text);
+  localStorage.setItem(key, JSON.stringify(savedReviews));
+
+  document.getElementById("reviewText").value = "";
+  loadReviews();
+}
+
+  function loadReviews() {
+  const savedReviews = JSON.parse(
+    localStorage.getItem(`reviews_property_${id}`)
+  ) || [];
+
+  const reviewsDiv = document.getElementById("reviews");
+  reviewsDiv.innerHTML = "";
+
+  savedReviews.forEach(review => {
     const div = document.createElement("div");
     div.className = "review";
-    div.textContent = text;
-
-    document.getElementById("reviews").appendChild(div);
-    document.getElementById("reviewText").value = "";
-  }
+    div.textContent = review;
+    reviewsDiv.appendChild(div);
+  });
+}
+loadReviews();
 </script>
 </body>
 </html>
