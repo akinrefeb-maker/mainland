@@ -183,14 +183,24 @@
     <p>Magboro • Mowe • Arepo • Berger</p>
   </header>
 
-  <section class="filters">
-    <input type="text" id="searchInput" placeholder="Search by location..." />
-    <select id="typeFilter">
-      <option value="">All</option>
-      <option value="Rent">Rent</option>
-      <option value="Sale">Sale</option>
-    </select>
-  </section>
+ <section class="filters">
+  <select id="stateFilter">
+    <option value="">All States</option>
+    <option value="Ogun">Ogun</option>
+    <option value="Lagos">Lagos</option>
+  </select>
+
+  <input type="text" id="lgaFilter" placeholder="Local Government" />
+  <input type="text" id="townFilter" placeholder="Town / Area" />
+
+  <select id="propertyTypeFilter">
+    <option value="">All Property Types</option>
+    <option value="Mini-Flat">Mini-Flat</option>
+    <option value="Duplex">Duplex</option>
+    <option value="Condo">Condo</option>
+    <option value="Bungalow">Bungalow</option>
+  </select>
+</section>
 
   <section id="listings" class="listings">
     <!-- Houses will appear here -->
@@ -208,27 +218,36 @@
 
   <script>
     const houses = [
-      {
-        id: 0,
-        title: "2 Bedroom Flat",
-        location: "Magboro",
-        price: "₦600,000 / year",
-        type: "Rent",
-        agent: "Mr. Ade",
-        phone: "08012345678",
-        image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994"
-      },
-      {
-        id: 1,
-        title: "3 Bedroom Duplex",
-        location: "Mowe",
-        price: "₦25,000,000",
-        type: "Sale",
-        agent: "Mrs. Kemi",
-        phone: "08198765432",
-        image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be"
-      }
-    ];
+  {
+    id: 0,
+    title: "2 Bedroom Flat",
+    state: "Ogun",
+    lga: "Obafemi Owode",
+    town: "Magboro",
+    propertyType: "Mini-Flat",
+    location: "Magboro",
+    price: "₦600,000 / year",
+    type: "Rent",
+    agent: "Mr. Ade",
+    phone: "08012345678",
+    image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994"
+  },
+  {
+    id: 1,
+    title: "3 Bedroom Duplex",
+    state: "Ogun",
+    lga: "Obafemi Owode",
+    town: "Mowe",
+    propertyType: "Duplex",
+    location: "Mowe",
+    price: "₦25,000,000",
+    type: "Sale",
+    agent: "Mrs. Kemi",
+    phone: "08198765432",
+    image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be"
+  }
+];
+
 
     const listings = document.getElementById("listings");
     const searchInput = document.getElementById("searchInput");
@@ -257,23 +276,32 @@
     function openProperty(id) {
       window.location.href = `property.html?id=${id}`;
     }
+const stateFilter = document.getElementById("stateFilter");
+const lgaFilter = document.getElementById("lgaFilter");
+const townFilter = document.getElementById("townFilter");
+const propertyTypeFilter = document.getElementById("propertyTypeFilter");
 
-    function filterHouses() {
-      const search = searchInput.value.toLowerCase();
-      const type = typeFilter.value;
+function filterHouses() {
+  const state = stateFilter.value.toLowerCase();
+  const lga = lgaFilter.value.toLowerCase();
+  const town = townFilter.value.toLowerCase();
+  const propertyType = propertyTypeFilter.value;
 
-      const filtered = houses.filter(house =>
-        house.location.toLowerCase().includes(search) &&
-        (type === "" || house.type === type)
-      );
+  const filtered = houses.filter(house =>
+    (state === "" || house.state.toLowerCase() === state) &&
+    house.lga.toLowerCase().includes(lga) &&
+    house.town.toLowerCase().includes(town) &&
+    (propertyType === "" || house.propertyType === propertyType)
+  );
 
-      displayHouses(filtered);
-    }
+  displayHouses(filtered);
+}
 
-    searchInput.addEventListener("input", filterHouses);
-    typeFilter.addEventListener("change", filterHouses);
-
-    displayHouses(houses);
+stateFilter.addEventListener("change", filterHouses);
+lgaFilter.addEventListener("input", filterHouses);
+townFilter.addEventListener("input", filterHouses);
+propertyTypeFilter.addEventListener("change", filterHouses);
+    
   </script>
 
 </body>
