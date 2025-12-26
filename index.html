@@ -2,20 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>House Listings</title>
 
   <style>
+    :root {
+      --primary: #2563eb;
+      --dark: #1e293b;
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       margin: 0;
-      background: #f4f6f8;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
     }
 
     header {
-      background: #1e293b;
+      background: linear-gradient(135deg, #1e293b, #334155);
       color: white;
-      padding: 20px;
+      padding: 24px 16px;
       text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+
+    header p {
+      margin-top: 6px;
+      font-size: 0.95rem;
+      opacity: 0.9;
     }
 
     .filters {
@@ -24,52 +50,77 @@
       padding: 15px;
       justify-content: center;
       flex-wrap: wrap;
+      background: #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
     .filters input,
     .filters select {
-      padding: 10px;
+      padding: 12px;
       width: 200px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      font-size: 14px;
     }
 
     .listings {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 15px;
+      gap: 18px;
       padding: 20px;
+      max-width: 1200px;
+      margin: auto;
     }
 
     .card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
       overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
     }
 
     .card img {
       width: 100%;
-      height: 180px;
+      height: 190px;
       object-fit: cover;
+      display: block;
     }
 
     .card-content {
-      padding: 15px;
+      padding: 16px;
     }
 
     .card h3 {
-      margin: 0 0 5px;
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+      color: #0f172a;
+    }
+
+    .card p {
+      margin: 4px 0;
+      font-size: 0.9rem;
     }
 
     .card button {
-      margin-top: 10px;
-      padding: 10px;
+      margin-top: 12px;
+      padding: 12px;
       width: 100%;
       border: none;
-      background: #2563eb;
+      background: var(--primary);
       color: white;
       cursor: pointer;
-      border-radius: 4px;
+      border-radius: 8px;
       font-size: 15px;
+    }
+
+    .card button:hover {
+      background: #1d4ed8;
     }
 
     /* Floating WhatsApp Button */
@@ -85,10 +136,42 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
+      font-size: 28px;
       text-decoration: none;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
       z-index: 1000;
+    }
+
+    /* -------- MOBILE OPTIMIZATION -------- */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.3rem;
+      }
+
+      .filters input,
+      .filters select {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .listings {
+        padding: 14px;
+        gap: 14px;
+      }
+
+      .card img {
+        height: 160px;
+      }
+
+      .card-content {
+        padding: 14px;
+      }
+
+      .whatsapp-float {
+        width: 54px;
+        height: 54px;
+        font-size: 24px;
+      }
     }
   </style>
 </head>
@@ -152,28 +235,28 @@
     const typeFilter = document.getElementById("typeFilter");
 
     function displayHouses(data) {
-  listings.innerHTML = "";
-  data.forEach(house => {
-    listings.innerHTML += `
-      <div class="card" onclick="openProperty(${houses.indexOf(house)})" style="cursor:pointer;">
-  <img src="${house.image}" alt="${house.title}">
-  <div class="card-content">
-    <h3>${house.title}</h3>
-    <p><strong>Location:</strong> ${house.location}</p>
-    <p><strong>Price:</strong> ${house.price}</p>
-    <p><strong>Agent:</strong> ${house.agent}</p>
-    <button onclick="event.stopPropagation(); window.open('https://wa.me/234${house.phone.substring(1)}','_blank')">
-      Contact Agent on WhatsApp
-    </button>
-  </div>
-</div>
-    `;
-  });
-}
+      listings.innerHTML = "";
+      data.forEach(house => {
+        listings.innerHTML += `
+          <div class="card" onclick="openProperty(${houses.indexOf(house)})" style="cursor:pointer;">
+            <img src="${house.image}" alt="${house.title}">
+            <div class="card-content">
+              <h3>${house.title}</h3>
+              <p><strong>Location:</strong> ${house.location}</p>
+              <p><strong>Price:</strong> ${house.price}</p>
+              <p><strong>Agent:</strong> ${house.agent}</p>
+              <button onclick="event.stopPropagation(); window.open('https://wa.me/234${house.phone.substring(1)}','_blank')">
+                Contact Agent on WhatsApp
+              </button>
+            </div>
+          </div>
+        `;
+      });
+    }
 
     function openProperty(id) {
-  window.location.href = `property.html?id=${id}`;
-}
+      window.location.href = `property.html?id=${id}`;
+    }
 
     function filterHouses() {
       const search = searchInput.value.toLowerCase();
