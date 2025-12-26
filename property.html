@@ -78,4 +78,180 @@
       color: white;
       text-align: center;
       text-decoration: none;
-      border
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .whatsapp-btn:hover {
+      opacity: 0.95;
+    }
+
+    h3 {
+      margin-top: 30px;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #cbd5f5;
+      resize: vertical;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 12px 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      margin-top: 10px;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    button:hover {
+      opacity: 0.95;
+    }
+
+    .review {
+      background: #f1f5f9;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    /* --------- MOBILE OPTIMISATION --------- */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.2rem;
+      }
+
+      img {
+        height: 220px;
+      }
+
+      .container {
+        margin: 10px;
+        padding: 14px;
+      }
+
+      .info p {
+        font-size: 0.9rem;
+      }
+
+      .whatsapp-btn {
+        font-size: 15px;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1 id="title"></h1>
+</header>
+
+<div class="container">
+  <img id="image" alt="Property Image">
+
+  <div class="info">
+    <p><strong>Address:</strong> <span id="address"></span></p>
+    <p><strong>Rooms:</strong> <span id="rooms"></span></p>
+    <p><strong>Bathrooms:</strong> <span id="bathrooms"></span></p>
+    <p><strong>Gated:</strong> <span id="gated"></span></p>
+    <p><strong>Parking Space:</strong> <span id="parking"></span></p>
+    <p><strong>Running Water:</strong> <span id="water"></span></p>
+    <p><strong>Electricity:</strong> <span id="electricity"></span></p>
+    <p><strong>Agent Comment:</strong> <span id="comment"></span></p>
+  </div>
+
+  <a id="whatsapp" class="whatsapp-btn" target="_blank">
+    Contact Agent on WhatsApp
+  </a>
+
+  <h3>Reviews</h3>
+  <textarea id="reviewText" placeholder="Write a review..."></textarea>
+  <button onclick="addReview()">Submit Review</button>
+
+  <div id="reviews"></div>
+</div>
+
+<script>
+  const properties = [
+    {
+      id: 0,
+      title: "2 Bedroom Flat",
+      address: "Magboro, Ogun State",
+      rooms: 2,
+      bathrooms: 2,
+      gated: "Yes",
+      parking: "2 Cars",
+      water: "Available",
+      electricity: "Stable",
+      comment: "Very calm environment",
+      agentPhone: "08012345678",
+      image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994"
+    },
+    {
+      id: 1,
+      title: "3 Bedroom Duplex",
+      address: "Mowe, Ogun State",
+      rooms: 3,
+      bathrooms: 3,
+      gated: "Yes",
+      parking: "3 Cars",
+      water: "Available",
+      electricity: "Stable",
+      comment: "Perfect for families",
+      agentPhone: "08198765432",
+      image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be"
+    }
+  ];
+
+  const params = new URLSearchParams(window.location.search);
+  const id = Number(params.get("id"));
+
+  const house = properties.find(p => p.id === id);
+
+  if (!house) {
+    document.body.innerHTML = "<h2 style='text-align:center;padding:20px'>Property not found</h2>";
+  } else {
+    document.getElementById("title").textContent = house.title;
+    document.getElementById("image").src = house.image;
+    document.getElementById("address").textContent = house.address;
+    document.getElementById("rooms").textContent = house.rooms;
+    document.getElementById("bathrooms").textContent = house.bathrooms;
+    document.getElementById("gated").textContent = house.gated;
+    document.getElementById("parking").textContent = house.parking;
+    document.getElementById("water").textContent = house.water;
+    document.getElementById("electricity").textContent = house.electricity;
+    document.getElementById("comment").textContent = house.comment;
+
+    document.getElementById("whatsapp").href =
+      `https://wa.me/234${house.agentPhone.substring(1)}`;
+  }
+
+  function addReview() {
+    const text = document.getElementById("reviewText").value.trim();
+    if (!text) return;
+
+    const div = document.createElement("div");
+    div.className = "review";
+    div.textContent = text;
+
+    document.getElementById("reviews").appendChild(div);
+    document.getElementById("reviewText").value = "";
+  }
+</script>
+</body>
+</html>
+
+
