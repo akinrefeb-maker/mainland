@@ -238,7 +238,7 @@
       listings.innerHTML = "";
       data.forEach(house => {
         listings.innerHTML += `
-          <div class="card" onclick="openProperty(${houses.indexOf(house)})" style="cursor:pointer;">
+          <div class="card" onclick="openProperty(${house.id})" style="cursor:pointer;">
             <img src="${house.image}" alt="${house.title}">
             <div class="card-content">
               <h3>${house.title}</h3>
