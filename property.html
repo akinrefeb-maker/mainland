@@ -4,167 +4,78 @@
   <meta charset="UTF-8">
   <title>Property Details</title>
 
+  <!-- IMPORTANT FOR MOBILE -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
+    :root {
+      --primary: #2563eb;
+      --dark: #1e293b;
+      --light-bg: #f4f6f8;
+      --card-bg: #ffffff;
+      --muted: #64748b;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background: #f4f6f8;
+      background: var(--light-bg);
+      color: #0f172a;
+      line-height: 1.6;
     }
 
     header {
-      background: #1e293b;
+      background: var(--dark);
       color: white;
-      padding: 20px;
+      padding: 18px 15px;
       text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.4rem;
     }
 
     .container {
       max-width: 900px;
-      margin: 20px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
+      margin: 15px auto 30px;
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
     }
 
     img {
       width: 100%;
-      height: 350px;
+      height: 320px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: var(--radius);
+    }
+
+    .info {
+      margin-top: 15px;
     }
 
     .info p {
       margin: 8px 0;
+      font-size: 0.95rem;
+    }
+
+    .info strong {
+      color: var(--dark);
     }
 
     .whatsapp-btn {
       display: block;
       margin-top: 20px;
-      padding: 12px;
+      padding: 14px;
       background: #25d366;
       color: white;
       text-align: center;
       text-decoration: none;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-
-    textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-    }
-
-    button {
-      padding: 10px 15px;
-      background: #2563eb;
-      color: white;
-      border: none;
-      margin-top: 10px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .review {
-      background: #f1f5f9;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 5px;
-    }
-  </style>
-</head>
-
-<body>
-
-<header>
-  <h1 id="title"></h1>
-</header>
-
-<div class="container">
-  <img id="image">
-
-  <div class="info">
-    <p><strong>Address:</strong> <span id="address"></span></p>
-    <p><strong>Rooms:</strong> <span id="rooms"></span></p>
-    <p><strong>Bathrooms:</strong> <span id="bathrooms"></span></p>
-    <p><strong>Gated:</strong> <span id="gated"></span></p>
-    <p><strong>Parking Space:</strong> <span id="parking"></span></p>
-    <p><strong>Running Water:</strong> <span id="water"></span></p>
-    <p><strong>Electricity:</strong> <span id="electricity"></span></p>
-    <p><strong>Agent Comment:</strong> <span id="comment"></span></p>
-  </div>
-
-  <a id="whatsapp" class="whatsapp-btn" target="_blank">
-    Contact Agent on WhatsApp
-  </a>
-
-  <h3>Reviews</h3>
-  <textarea id="reviewText" placeholder="Write a review..."></textarea>
-  <button onclick="addReview()">Submit Review</button>
-
-  <div id="reviews"></div>
-</div>
-
-<script>
-  const properties = [
-    {
-      title: "2 Bedroom Flat",
-      address: "Magboro, Ogun State",
-      rooms: 2,
-      bathrooms: 2,
-      gated: "Yes",
-      parking: "2 Cars",
-      water: "Available",
-      electricity: "Stable",
-      comment: "Very calm environment",
-      agentPhone: "08012345678",
-      image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994"
-    },
-    {
-      title: "3 Bedroom Duplex",
-      address: "Mowe, Ogun State",
-      rooms: 3,
-      bathrooms: 3,
-      gated: "Yes",
-      parking: "3 Cars",
-      water: "Available",
-      electricity: "Stable",
-      comment: "Perfect for families",
-      agentPhone: "08198765432",
-      image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be"
-    }
-  ];
-
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
-  const house = properties[id];
-
-  document.getElementById("title").textContent = house.title;
-  document.getElementById("image").src = house.image;
-  document.getElementById("address").textContent = house.address;
-  document.getElementById("rooms").textContent = house.rooms;
-  document.getElementById("bathrooms").textContent = house.bathrooms;
-  document.getElementById("gated").textContent = house.gated;
-  document.getElementById("parking").textContent = house.parking;
-  document.getElementById("water").textContent = house.water;
-  document.getElementById("electricity").textContent = house.electricity;
-  document.getElementById("comment").textContent = house.comment;
-
-  document.getElementById("whatsapp").href =
-    `https://wa.me/234${house.agentPhone.substring(1)}`;
-
-  function addReview() {
-    const text = document.getElementById("reviewText").value;
-    if (!text) return;
-
-    const div = document.createElement("div");
-    div.className = "review";
-    div.textContent = text;
-
-    document.getElementById("reviews").appendChild(div);
-    document.getElementById("reviewText").value = "";
-  }
-</script>
-
-</body>
-</html>
+      border
