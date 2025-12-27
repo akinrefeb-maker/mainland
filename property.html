@@ -255,7 +255,6 @@
 
   <div id="reviews"></div>
 </div>
-  
 <script>
 const properties = [
   {
@@ -301,86 +300,87 @@ const id = Number(params.get("id"));
 const house = properties.find(p => p.id === id);
 
 if (!house) {
-  document.body.innerHTML = "<h2 style='text-align:center;padding:20px'>Property not found</h2>";
-  return;
-}
+  document.body.innerHTML = "<h2 style='text-align:center'>Property not found</h2>";
+} else {
 
-/* BASIC DETAILS */
-document.getElementById("title").textContent = house.title;
-document.getElementById("address").textContent = house.address;
-document.getElementById("rooms").textContent = house.rooms;
-document.getElementById("bathrooms").textContent = house.bathrooms;
-document.getElementById("gated").textContent = house.gated;
-document.getElementById("parking").textContent = house.parking;
-document.getElementById("water").textContent = house.water;
-document.getElementById("electricity").textContent = house.electricity;
-document.getElementById("comment").textContent = house.comment;
-document.getElementById("whatsapp").href =
-  `https://wa.me/234${house.agentPhone.substring(1)}`;
+  document.getElementById("title").textContent = house.title;
 
-/* IMAGE GALLERY */
-const mainImage = document.getElementById("mainImage");
-const gallery = document.getElementById("gallery");
-const fullscreen = document.getElementById("fullscreen");
-const fullscreenImg = document.getElementById("fullscreenImg");
+  const mainImage = document.getElementById("mainImage");
+  const gallery = document.getElementById("gallery");
+  const fullscreen = document.getElementById("fullscreen");
+  const fullscreenImg = document.getElementById("fullscreenImg");
 
-let currentIndex = 0;
+  let currentIndex = 0;
 
-mainImage.src = house.images[0];
-mainImage.loading = "lazy";
+  mainImage.src = house.images[0];
+  mainImage.loading = "lazy";
 
-house.images.forEach((img, index) => {
-  const thumb = document.createElement("img");
-  thumb.src = img;
-  thumb.loading = "lazy";
+  house.images.forEach((img, index) => {
+    const thumb = document.createElement("img");
+    thumb.src = img;
+    thumb.loading = "lazy";
 
-  if (index === 0) thumb.classList.add("active");
+    if (index === 0) thumb.classList.add("active");
 
-  thumb.onclick = () => {
-    currentIndex = index;
-    updateImage();
+    thumb.onclick = () => {
+      currentIndex = index;
+      updateImage();
+    };
+
+    gallery.appendChild(thumb);
+  });
+
+  function updateImage() {
+    mainImage.src = house.images[currentIndex];
+    document.querySelectorAll(".gallery img").forEach((img, i) => {
+      img.classList.toggle("active", i === currentIndex);
+    });
+  }
+
+  // Fullscreen
+  mainImage.onclick = () => {
+    fullscreen.style.display = "flex";
+    fullscreenImg.src = mainImage.src;
   };
 
-  gallery.appendChild(thumb);
-});
+  function closeFullscreen() {
+    fullscreen.style.display = "none";
+  }
+  window.closeFullscreen = closeFullscreen;
 
-function updateImage() {
-  mainImage.src = house.images[currentIndex];
-  document.querySelectorAll(".gallery img").forEach((img, i) => {
-    img.classList.toggle("active", i === currentIndex);
+  // Swipe
+  let startX = 0;
+
+  mainImage.addEventListener("touchstart", e => {
+    startX = e.touches[0].clientX;
   });
+
+  mainImage.addEventListener("touchend", e => {
+    const endX = e.changedTouches[0].clientX;
+
+    if (startX - endX > 50 && currentIndex < house.images.length - 1) {
+      currentIndex++;
+    } else if (endX - startX > 50 && currentIndex > 0) {
+      currentIndex--;
+    }
+
+    updateImage();
+  });
+
+  document.getElementById("address").textContent = house.address;
+  document.getElementById("rooms").textContent = house.rooms;
+  document.getElementById("bathrooms").textContent = house.bathrooms;
+  document.getElementById("gated").textContent = house.gated;
+  document.getElementById("parking").textContent = house.parking;
+  document.getElementById("water").textContent = house.water;
+  document.getElementById("electricity").textContent = house.electricity;
+  document.getElementById("comment").textContent = house.comment;
+
+  document.getElementById("whatsapp").href =
+    `https://wa.me/234${house.agentPhone.substring(1)}`;
 }
 
-/* FULLSCREEN */
-mainImage.onclick = () => {
-  fullscreen.style.display = "flex";
-  fullscreenImg.src = mainImage.src;
-};
-
-function closeFullscreen() {
-  fullscreen.style.display = "none";
-}
-
-/* MOBILE SWIPE */
-let startX = 0;
-
-mainImage.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
-});
-
-mainImage.addEventListener("touchend", e => {
-  const endX = e.changedTouches[0].clientX;
-
-  if (startX - endX > 50 && currentIndex < house.images.length - 1) {
-    currentIndex++;
-  }
-  if (endX - startX > 50 && currentIndex > 0) {
-    currentIndex--;
-  }
-  updateImage();
-});
-
-/* REVIEWS */
+// Reviews
 function addReview() {
   const text = document.getElementById("reviewText").value;
   if (!text) return;
@@ -388,15 +388,15 @@ function addReview() {
   const key = `reviews_property_${id}`;
   const saved = JSON.parse(localStorage.getItem(key)) || [];
   saved.push(text);
-  localStorage.setItem(key, JSON.stringify(saved));
 
+  localStorage.setItem(key, JSON.stringify(saved));
   document.getElementById("reviewText").value = "";
   loadReviews();
 }
 
 function loadReviews() {
-  const saved = JSON.parse(localStorage.getItem(`reviews_property_${id}`)) || [];
   const reviewsDiv = document.getElementById("reviews");
+  const saved = JSON.parse(localStorage.getItem(`reviews_property_${id}`)) || [];
   reviewsDiv.innerHTML = "";
 
   saved.forEach(r => {
@@ -406,9 +406,10 @@ function loadReviews() {
     reviewsDiv.appendChild(div);
   });
 }
-
 loadReviews();
 </script>
+
+
 </body>
 </html>
 
