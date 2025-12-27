@@ -178,6 +178,40 @@
         padding: 12px;
       }
     }
+
+/* FULLSCREEN IMAGE VIEW */
+.fullscreen {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.fullscreen img {
+  max-width: 95%;
+  max-height: 90%;
+  border-radius: 10px;
+}
+
+.fullscreen span {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+/* Swipe hint */
+.swipe-hint {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 6px;
+}
   </style>
 </head>
 
@@ -192,6 +226,13 @@
   <img id="mainImage"  alt="Property Image">
 
 <div class="gallery" id="gallery"></div>
+  
+<p class="swipe-hint">Swipe images ◀ ▶ or tap to view fullscreen</p>
+
+<div class="fullscreen" id="fullscreen">
+  <span onclick="closeFullscreen()">✕</span>
+  <img id="fullscreenImg">
+</div>
 
   <div class="info">
     <p><strong>Address:</strong> <span id="address"></span></p>
@@ -267,22 +308,66 @@
     const mainImage = document.getElementById("mainImage");
 const gallery = document.getElementById("gallery");
 
+const mainImage = document.getElementById("mainImage");
+const gallery = document.getElementById("gallery");
+const fullscreen = document.getElementById("fullscreen");
+const fullscreenImg = document.getElementById("fullscreenImg");
+
+let currentIndex = 0;
+
 mainImage.src = house.images[0];
+mainImage.loading = "lazy";
 
 house.images.forEach((img, index) => {
   const thumb = document.createElement("img");
   thumb.src = img;
+  thumb.loading = "lazy";
 
   if (index === 0) thumb.classList.add("active");
 
   thumb.onclick = () => {
-    mainImage.src = img;
-    document.querySelectorAll(".gallery img").forEach(i => i.classList.remove("active"));
-    thumb.classList.add("active");
+    currentIndex = index;
+    updateImage();
   };
 
   gallery.appendChild(thumb);
 });
+
+function updateImage() {
+  mainImage.src = house.images[currentIndex];
+  document.querySelectorAll(".gallery img").forEach((img, i) => {
+    img.classList.toggle("active", i === currentIndex);
+  });
+}
+
+/* FULLSCREEN */
+mainImage.onclick = () => {
+  fullscreen.style.display = "flex";
+  fullscreenImg.src = mainImage.src;
+};
+
+function closeFullscreen() {
+  fullscreen.style.display = "none";
+}
+
+/* MOBILE SWIPE */
+let startX = 0;
+
+mainImage.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+});
+
+mainImage.addEventListener("touchend", e => {
+  const endX = e.changedTouches[0].clientX;
+  if (startX - endX > 50 && currentIndex < house.images.length - 1) {
+    currentIndex++;
+  }
+  if (endX - startX > 50 && currentIndex > 0) {
+    currentIndex--;
+  }
+  updateImage();
+});
+
     document.getElementById("address").textContent = house.address;
     document.getElementById("rooms").textContent = house.rooms;
     document.getElementById("bathrooms").textContent = house.bathrooms;
