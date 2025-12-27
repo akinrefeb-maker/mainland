@@ -255,9 +255,9 @@
 
   <div id="reviews"></div>
 </div>
-
+  
 <script>
-  const properties = [
+const properties = [
   {
     id: 0,
     title: "2 Bedroom Flat",
@@ -296,18 +296,29 @@
   }
 ];
 
-  const params = new URLSearchParams(window.location.search);
-  const id = Number(params.get("id"));
+const params = new URLSearchParams(window.location.search);
+const id = Number(params.get("id"));
+const house = properties.find(p => p.id === id);
 
-  const house = properties.find(p => p.id === id);
+if (!house) {
+  document.body.innerHTML = "<h2 style='text-align:center;padding:20px'>Property not found</h2>";
+  return;
+}
 
-  if (!house) {
-    document.body.innerHTML = "<h2 style='text-align:center;padding:20px'>Property not found</h2>";
-  } else {
-    document.getElementById("title").textContent = house.title;
-    const mainImage = document.getElementById("mainImage");
-const gallery = document.getElementById("gallery");
+/* BASIC DETAILS */
+document.getElementById("title").textContent = house.title;
+document.getElementById("address").textContent = house.address;
+document.getElementById("rooms").textContent = house.rooms;
+document.getElementById("bathrooms").textContent = house.bathrooms;
+document.getElementById("gated").textContent = house.gated;
+document.getElementById("parking").textContent = house.parking;
+document.getElementById("water").textContent = house.water;
+document.getElementById("electricity").textContent = house.electricity;
+document.getElementById("comment").textContent = house.comment;
+document.getElementById("whatsapp").href =
+  `https://wa.me/234${house.agentPhone.substring(1)}`;
 
+/* IMAGE GALLERY */
 const mainImage = document.getElementById("mainImage");
 const gallery = document.getElementById("gallery");
 const fullscreen = document.getElementById("fullscreen");
@@ -359,6 +370,7 @@ mainImage.addEventListener("touchstart", e => {
 
 mainImage.addEventListener("touchend", e => {
   const endX = e.changedTouches[0].clientX;
+
   if (startX - endX > 50 && currentIndex < house.images.length - 1) {
     currentIndex++;
   }
@@ -368,48 +380,33 @@ mainImage.addEventListener("touchend", e => {
   updateImage();
 });
 
-    document.getElementById("address").textContent = house.address;
-    document.getElementById("rooms").textContent = house.rooms;
-    document.getElementById("bathrooms").textContent = house.bathrooms;
-    document.getElementById("gated").textContent = house.gated;
-    document.getElementById("parking").textContent = house.parking;
-    document.getElementById("water").textContent = house.water;
-    document.getElementById("electricity").textContent = house.electricity;
-    document.getElementById("comment").textContent = house.comment;
-
-    document.getElementById("whatsapp").href =
-      `https://wa.me/234${house.agentPhone.substring(1)}`;
-  }
-
-  function addReview() {
+/* REVIEWS */
+function addReview() {
   const text = document.getElementById("reviewText").value;
   if (!text) return;
 
   const key = `reviews_property_${id}`;
-  const savedReviews = JSON.parse(localStorage.getItem(key)) || [];
-
-  savedReviews.push(text);
-  localStorage.setItem(key, JSON.stringify(savedReviews));
+  const saved = JSON.parse(localStorage.getItem(key)) || [];
+  saved.push(text);
+  localStorage.setItem(key, JSON.stringify(saved));
 
   document.getElementById("reviewText").value = "";
   loadReviews();
 }
 
-  function loadReviews() {
-  const savedReviews = JSON.parse(
-    localStorage.getItem(`reviews_property_${id}`)
-  ) || [];
-
+function loadReviews() {
+  const saved = JSON.parse(localStorage.getItem(`reviews_property_${id}`)) || [];
   const reviewsDiv = document.getElementById("reviews");
   reviewsDiv.innerHTML = "";
 
-  savedReviews.forEach(review => {
+  saved.forEach(r => {
     const div = document.createElement("div");
     div.className = "review";
-    div.textContent = review;
+    div.textContent = r;
     reviewsDiv.appendChild(div);
   });
 }
+
 loadReviews();
 </script>
 </body>
