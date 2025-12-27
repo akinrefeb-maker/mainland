@@ -260,11 +260,8 @@ const house = JSON.parse(localStorage.getItem("selectedProperty"));
 
 if (!house) {
   document.body.innerHTML = "<h2 style='text-align:center'>Property not found</h2>";
+  throw new Error("No property data found");
 }
-
-if (!house) {
-  document.body.innerHTML = "<h2 style='text-align:center'>Property not found</h2>";
-} else {
 
   document.getElementById("title").textContent = house.title;
 
@@ -348,7 +345,7 @@ function addReview() {
   const text = document.getElementById("reviewText").value;
   if (!text) return;
 
-  const key = `reviews_property_${id}`;
+  const key = `reviews_property_${house.id}`;
   const saved = JSON.parse(localStorage.getItem(key)) || [];
   saved.push(text);
 
@@ -359,9 +356,10 @@ function addReview() {
 
 function loadReviews() {
   const reviewsDiv = document.getElementById("reviews");
-  const saved = JSON.parse(localStorage.getItem(`reviews_property_${id}`)) || [];
-  reviewsDiv.innerHTML = "";
+  const key = `reviews_property_${house.id}`;
+  const saved = JSON.parse(localStorage.getItem(key)) || [];
 
+  reviewsDiv.innerHTML = "";
   saved.forEach(r => {
     const div = document.createElement("div");
     div.className = "review";
@@ -369,6 +367,7 @@ function loadReviews() {
     reviewsDiv.appendChild(div);
   });
 }
+
 loadReviews();
 </script>
 
