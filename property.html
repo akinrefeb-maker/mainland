@@ -308,14 +308,14 @@ if (!house) {
   }
   window.closeFullscreen = closeFullscreen;
 
-  // Swipe
+  // Swipe support (main image + fullscreen)
   let startX = 0;
 
-  mainImage.addEventListener("touchstart", e => {
+  function handleTouchStart(e) {
     startX = e.touches[0].clientX;
-  });
+  }
 
-  mainImage.addEventListener("touchend", e => {
+  function handleTouchEnd(e) {
     const endX = e.changedTouches[0].clientX;
 
     if (startX - endX > 50 && currentIndex < house.images.length - 1) {
@@ -325,7 +325,18 @@ if (!house) {
     }
 
     updateImage();
-  });
+
+    // Sync fullscreen image
+    fullscreenImg.src = house.images[currentIndex];
+  }
+
+  // Main image swipe
+  mainImage.addEventListener("touchstart", handleTouchStart);
+  mainImage.addEventListener("touchend", handleTouchEnd);
+
+  // Fullscreen image swipe ✅
+  fullscreenImg.addEventListener("touchstart", handleTouchStart);
+  fullscreenImg.addEventListener("touchend", handleTouchEnd);
 
   document.getElementById("address").textContent =
   `${house.town}, ${house.lga}, ${house.state}`;
