@@ -327,18 +327,19 @@ if (!house) {
     updateImage();
   });
 
-  document.getElementById("address").textContent = house.address;
-  document.getElementById("rooms").textContent = house.rooms;
-  document.getElementById("bathrooms").textContent = house.bathrooms;
-  document.getElementById("gated").textContent = house.gated;
-  document.getElementById("parking").textContent = house.parking;
-  document.getElementById("water").textContent = house.water;
-  document.getElementById("electricity").textContent = house.electricity;
-  document.getElementById("comment").textContent = house.comment;
+  document.getElementById("address").textContent =
+  `${house.town}, ${house.lga}, ${house.state}`;
 
-  document.getElementById("whatsapp").href =
-    `https://wa.me/234${house.agentPhone.substring(1)}`;
-}
+document.getElementById("rooms").textContent = "Not specified";
+document.getElementById("bathrooms").textContent = "Not specified";
+document.getElementById("gated").textContent = "Not specified";
+document.getElementById("parking").textContent = "Not specified";
+document.getElementById("water").textContent = "Not specified";
+document.getElementById("electricity").textContent = "Not specified";
+document.getElementById("comment").textContent = "Contact agent for details";
+
+document.getElementById("whatsapp").href =
+  `https://wa.me/234${house.phone.substring(1)}`;
 
 // Reviews
 function addReview() {
