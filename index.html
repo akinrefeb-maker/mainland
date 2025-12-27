@@ -281,9 +281,11 @@
       });
     }
 
-    function openProperty(id) {
-      window.location.href = `property.html?id=${id}`;
-    }
+function openProperty(id) {
+  const selectedHouse = houses.find(h => h.id === id);
+  localStorage.setItem("selectedProperty", JSON.stringify(selectedHouse));
+  window.location.href = "property.html";
+}
 const stateFilter = document.getElementById("stateFilter");
 const lgaFilter = document.getElementById("lgaFilter");
 const townFilter = document.getElementById("townFilter");
