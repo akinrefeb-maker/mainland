@@ -261,43 +261,43 @@ const houses = [
 /* ================= DATA ================= */
 
 const nigeriaStatesLGAs = {
-  Abia: ["Aba North", "Aba South", "Arochukwu", "Bende", "Ikwuano"],
-  Adamawa: ["Yola North", "Yola South", "Mubi North", "Mubi South"],
-  Akwa Ibom: ["Uyo", "Eket", "Ikot Ekpene"],
-  Anambra: ["Awka North", "Awka South", "Onitsha North", "Onitsha South"],
-  Bauchi: ["Bauchi", "Katagum", "Misau"],
-  Bayelsa: ["Yenagoa", "Brass", "Ogbia"],
-  Benue: ["Makurdi", "Gboko", "Otukpo"],
-  Borno: ["Maiduguri", "Jere", "Biu"],
-  Cross River: ["Calabar Municipal", "Calabar South", "Ogoja"],
-  Delta: ["Warri South", "Warri North", "Sapele", "Asaba"],
-  Ebonyi: ["Abakaliki", "Afikpo North"],
-  Edo: ["Oredo", "Ikpoba-Okha", "Egor"],
-  Ekiti: ["Ado-Ekiti", "Ikere", "Oye"],
-  Enugu: ["Enugu East", "Enugu North", "Enugu South", "Nsukka", "Udi"],
-  FCT: ["Abuja Municipal", "Gwagwalada", "Kuje", "Kwali"],
-  Gombe: ["Gombe", "Kaltungo"],
-  Imo: ["Owerri Municipal", "Owerri North", "Orlu"],
-  Jigawa: ["Dutse", "Hadejia"],
-  Kaduna: ["Kaduna North", "Kaduna South", "Zaria"],
-  Kano: ["Nassarawa", "Tarauni", "Fagge"],
-  Katsina: ["Katsina", "Daura"],
-  Kebbi: ["Birnin Kebbi", "Argungu"],
-  Kogi: ["Lokoja", "Okene"],
-  Kwara: ["Ilorin West", "Ilorin East"],
-  Lagos: ["Ikeja", "Lekki", "Eti-Osa", "Surulere", "Yaba"],
-  Nasarawa: ["Lafia", "Keffi"],
-  Niger: ["Minna", "Bida"],
-  Ogun: ["Obafemi Owode", "Ado-Odo/Ota", "Sagamu", "Ifo"],
-  Ondo: ["Akure South", "Owo"],
-  Osun: ["Osogbo", "Ile-Ife"],
-  Oyo: ["Ibadan North", "Ibadan South-West", "Ogbomosho"],
-  Plateau: ["Jos North", "Jos South"],
-  Rivers: ["Port Harcourt", "Obio-Akpor"],
-  Sokoto: ["Sokoto North", "Wamakko"],
-  Taraba: ["Jalingo", "Wukari"],
-  Yobe: ["Damaturu", "Potiskum"],
-  Zamfara: ["Gusau", "Kaura Namoda"]
+  "Abia": ["Aba North", "Aba South", "Arochukwu", "Bende", "Ikwuano"],
+  "Adamawa": ["Yola North", "Yola South", "Mubi North", "Mubi South"],
+  "Akwa Ibom": ["Uyo", "Eket", "Ikot Ekpene"],
+  "Anambra": ["Awka North", "Awka South", "Onitsha North", "Onitsha South"],
+  "Bauchi": ["Bauchi", "Katagum", "Misau"],
+  "Bayelsa": ["Yenagoa", "Brass", "Ogbia"],
+  "Benue": ["Makurdi", "Gboko", "Otukpo"],
+  "Borno": ["Maiduguri", "Jere", "Biu"],
+  "Cross River": ["Calabar Municipal", "Calabar South", "Ogoja"],
+  "Delta": ["Warri South", "Warri North", "Sapele", "Asaba"],
+  "Ebonyi": ["Abakaliki", "Afikpo North"],
+  "Edo": ["Oredo", "Ikpoba-Okha", "Egor"],
+  "Ekiti": ["Ado-Ekiti", "Ikere", "Oye"],
+  "Enugu": ["Enugu East", "Enugu North", "Enugu South", "Nsukka", "Udi"],
+  "FCT": ["Abuja Municipal", "Gwagwalada", "Kuje", "Kwali"],
+  "Gombe": ["Gombe", "Kaltungo"],
+  "Imo": ["Owerri Municipal", "Owerri North", "Orlu"],
+  "Jigawa": ["Dutse", "Hadejia"],
+  "Kaduna": ["Kaduna North", "Kaduna South", "Zaria"],
+  "Kano": ["Nassarawa", "Tarauni", "Fagge"],
+  "Katsina": ["Katsina", "Daura"],
+  "Kebbi": ["Birnin Kebbi", "Argungu"],
+  "Kogi": ["Lokoja", "Okene"],
+  "Kwara": ["Ilorin West", "Ilorin East"],
+  "Lagos": ["Ikeja", "Lekki", "Eti-Osa", "Surulere", "Yaba"],
+  "Nasarawa": ["Lafia", "Keffi"],
+  "Niger": ["Minna", "Bida"],
+  "Ogun": ["Obafemi Owode", "Ado-Odo/Ota", "Sagamu", "Ifo"],
+  "Ondo": ["Akure South", "Owo"],
+  "Osun": ["Osogbo", "Ile-Ife"],
+  "Oyo": ["Ibadan North", "Ibadan South-West", "Ogbomosho"],
+  "Plateau": ["Jos North", "Jos South"],
+  "Rivers": ["Port Harcourt", "Obio-Akpor"],
+  "Sokoto": ["Sokoto North", "Wamakko"],
+  "Taraba": ["Jalingo", "Wukari"],
+  "Yobe": ["Damaturu", "Potiskum"],
+  "Zamfara": ["Gusau", "Kaura Namoda"]
 };
 
 /* ================= DOM ================= */
@@ -316,13 +316,32 @@ Object.keys(nigeriaStatesLGAs).forEach(state => {
   stateFilter.appendChild(option);
 });
 
-   Object.keys(nigeriaStatesLGAs).forEach(state => {
-  const option = document.createElement("option");
-  option.value = state;
-  option.textContent = state;
-  stateFilter.appendChild(option);
-});
+   function displayHouses(data) {
+  const listings = document.getElementById("listings");
+  listings.innerHTML = "";
 
+  if (data.length === 0) {
+    listings.innerHTML = "<p style='text-align:center'>No properties found</p>";
+    return;
+  }
+
+  data.forEach(house => {
+    listings.innerHTML += `
+      <div class="card" onclick="openProperty(${house.id})">
+        <img src="${house.images[0]}" alt="${house.title}">
+        <div class="card-content">
+          <h3>${house.title}</h3>
+          <p><strong>Location:</strong> ${house.town}, ${house.state}</p>
+          <p><strong>Price:</strong> ${house.price}</p>
+          <p><strong>Agent:</strong> ${house.agent}</p>
+          <button onclick="event.stopPropagation(); window.open('https://wa.me/234${house.phone.substring(1)}','_blank')">
+            Contact Agent
+          </button>
+        </div>
+      </div>
+    `;
+  });
+}
 
 /* ================= FILTER FUNCTION ================= */
 
