@@ -212,6 +212,39 @@
   color: var(--muted);
   margin-top: 6px;
 }
+    .nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 42px;
+  cursor: pointer;
+  padding: 10px 14px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 50%;
+  user-select: none;
+}
+
+.nav-arrow:hover {
+  background: rgba(0,0,0,0.6);
+}
+
+.nav-arrow.left {
+  left: 20px;
+}
+
+.nav-arrow.right {
+  right: 20px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
   </style>
 </head>
 
@@ -230,8 +263,13 @@
 <p class="swipe-hint">Swipe images ◀ ▶ or tap to view fullscreen</p>
 
 <div class="fullscreen" id="fullscreen">
-  <span onclick="closeFullscreen()">✕</span>
+  <span class="close-btn" onclick="closeFullscreen()">✕</span>
+
+  <span class="nav-arrow left" onclick="prevImage()">❮</span>
+
   <img id="fullscreenImg">
+
+  <span class="nav-arrow right" onclick="nextImage()">❯</span>
 </div>
 
   <div class="info">
@@ -297,11 +335,31 @@ if (!house) {
     });
   }
 
+  function nextImage() {
+  if (currentIndex < house.images.length - 1) {
+    currentIndex++;
+  } else {
+    currentIndex = 0; // loop back
+  }
+  updateImage();
+  fullscreenImg.src = house.images[currentIndex];
+}
+
+function prevImage() {
+  if (currentIndex > 0) {
+    currentIndex--;
+  } else {
+    currentIndex = house.images.length - 1; // loop back
+  }
+  updateImage();
+  fullscreenImg.src = house.images[currentIndex];
+}
+
   // Fullscreen
-  mainImage.onclick = () => {
-    fullscreen.style.display = "flex";
-    fullscreenImg.src = mainImage.src;
-  };
+   mainImage.onclick = () => {
+  fullscreen.style.display = "flex";
+  fullscreenImg.src = house.images[currentIndex];
+};
 
   function closeFullscreen() {
     fullscreen.style.display = "none";
@@ -325,6 +383,22 @@ if (!house) {
     }
 
     updateImage();
+
+    let fsStartX = 0;
+
+fullscreenImg.addEventListener("touchstart", e => {
+  fsStartX = e.touches[0].clientX;
+});
+
+fullscreenImg.addEventListener("touchend", e => {
+  const fsEndX = e.changedTouches[0].clientX;
+
+  if (fsStartX - fsEndX > 50) {
+    nextImage();
+  } else if (fsEndX - fsStartX > 50) {
+    prevImage();
+  }
+});
 
     // Sync fullscreen image
     fullscreenImg.src = house.images[currentIndex];
