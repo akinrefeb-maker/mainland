@@ -183,14 +183,15 @@
     <p>Magboro • Mowe • Arepo • Berger</p>
   </header>
 
- <section class="filters">
+<section class="filters">
   <select id="stateFilter">
-    <option value="">All States</option>
-    <option value="Ogun">Ogun</option>
-    <option value="Lagos">Lagos</option>
+    <option value="">Select State</option>
   </select>
 
-  <input type="text" id="lgaFilter" placeholder="Local Government" />
+  <select id="lgaFilter" disabled>
+    <option value="">Select Local Government</option>
+  </select>
+
   <input type="text" id="townFilter" placeholder="Town / Area" />
 
   <select id="propertyTypeFilter">
@@ -201,6 +202,7 @@
     <option value="Bungalow">Bungalow</option>
   </select>
 </section>
+
 
   <section id="listings" class="listings">
     <!-- Houses will appear here -->
@@ -286,20 +288,90 @@ function openProperty(id) {
   localStorage.setItem("selectedProperty", JSON.stringify(selectedHouse));
   window.location.href = "property.html";
 }
+
+    const nigeriaStatesLGAs = {
+  "Abia": ["Aba North", "Aba South", "Arochukwu", "Bende", "Ikwuano"],
+  "Adamawa": ["Yola North", "Yola South", "Mubi North", "Mubi South"],
+  "Akwa Ibom": ["Uyo", "Eket", "Ikot Ekpene"],
+  "Anambra": ["Awka North", "Awka South", "Onitsha North", "Onitsha South"],
+  "Bauchi": ["Bauchi", "Katagum", "Misau"],
+  "Benue": ["Makurdi", "Gboko", "Otukpo"],
+  "Cross River": ["Calabar Municipal", "Calabar South", "Ogoja"],
+  "Delta": ["Warri South", "Warri North", "Sapele", "Asaba"],
+  "Ebonyi": ["Abakaliki", "Afikpo North"],
+  "Edo": ["Oredo", "Ikpoba-Okha", "Egor"],
+  "Ekiti": ["Ado-Ekiti", "Ikere", "Oye"],
+  "Enugu": [
+    "Enugu East",
+    "Enugu North",
+    "Enugu South",
+    "Nsukka",
+    "Udi",
+    "Igbo-Etiti"
+  ],
+  "FCT": ["Abuja Municipal", "Gwagwalada", "Kuje", "Kwali"],
+  "Imo": ["Owerri Municipal", "Owerri North", "Orlu"],
+  "Lagos": [
+    "Ikeja",
+    "Lekki",
+    "Eti-Osa",
+    "Surulere",
+    "Yaba",
+    "Alimosho"
+  ],
+  "Ogun": [
+    "Obafemi Owode",
+    "Ado-Odo/Ota",
+    "Sagamu",
+    "Ifo"
+  ],
+  "Oyo": ["Ibadan North", "Ibadan South-West", "Ogbomosho"],
+  "Rivers": ["Port Harcourt", "Obio-Akpor", "Eleme"]
+};
+
+    const stateFilter = document.getElementById("stateFilter");
+const lgaFilter = document.getElementById("lgaFilter");
+
+Object.keys(nigeriaStatesLGAs).forEach(state => {
+  const option = document.createElement("option");
+  option.value = state;
+  option.textContent = state;
+  stateFilter.appendChild(option);
+});
+
+    stateFilter.addEventListener("change", () => {
+  const selectedState = stateFilter.value;
+
+  lgaFilter.innerHTML = `<option value="">Select Local Government</option>`;
+  lgaFilter.disabled = true;
+
+  if (!selectedState) return;
+
+  nigeriaStatesLGAs[selectedState].forEach(lga => {
+    const option = document.createElement("option");
+    option.value = lga;
+    option.textContent = lga;
+    lgaFilter.appendChild(option);
+  });
+
+  lgaFilter.disabled = false;
+  filterHouses();
+});
+
 const stateFilter = document.getElementById("stateFilter");
 const lgaFilter = document.getElementById("lgaFilter");
 const townFilter = document.getElementById("townFilter");
 const propertyTypeFilter = document.getElementById("propertyTypeFilter");
 
 function filterHouses() {
-  const state = stateFilter.value.toLowerCase();
+  const state = stateFilter.value;
   const lga = lgaFilter.value.toLowerCase();
   const town = townFilter.value.toLowerCase();
   const propertyType = propertyTypeFilter.value;
 
   const filtered = houses.filter(house =>
-    (state === "" || house.state.toLowerCase() === state) &&
-    house.lga.toLowerCase().includes(lga) &&
+    (state === "" || house.state === state) &&
+    (lga === "" || house.lga.toLowerCase() === lga) &&
     house.town.toLowerCase().includes(town) &&
     (propertyType === "" || house.propertyType === propertyType)
   );
@@ -307,8 +379,7 @@ function filterHouses() {
   displayHouses(filtered);
 }
 
-stateFilter.addEventListener("change", filterHouses);
-lgaFilter.addEventListener("input", filterHouses);
+lgaFilter.addEventListener("change", filterHouses);
 townFilter.addEventListener("input", filterHouses);
 propertyTypeFilter.addEventListener("change", filterHouses);
 
