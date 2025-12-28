@@ -258,62 +258,83 @@ const houses = [
   }
 ];
 
+/* ================= DATA ================= */
+
 const nigeriaStatesLGAs = {
+  Abia: ["Aba North", "Aba South", "Arochukwu", "Bende", "Ikwuano"],
+  Adamawa: ["Yola North", "Yola South", "Mubi North", "Mubi South"],
+  AkwaIbom: ["Uyo", "Eket", "Ikot Ekpene"],
+  Anambra: ["Awka North", "Awka South", "Onitsha North", "Onitsha South"],
+  Bauchi: ["Bauchi", "Katagum", "Misau"],
+  Bayelsa: ["Yenagoa", "Brass", "Ogbia"],
+  Benue: ["Makurdi", "Gboko", "Otukpo"],
+  Borno: ["Maiduguri", "Jere", "Biu"],
+  CrossRiver: ["Calabar Municipal", "Calabar South", "Ogoja"],
+  Delta: ["Warri South", "Warri North", "Sapele", "Asaba"],
+  Ebonyi: ["Abakaliki", "Afikpo North"],
+  Edo: ["Oredo", "Ikpoba-Okha", "Egor"],
+  Ekiti: ["Ado-Ekiti", "Ikere", "Oye"],
+  Enugu: ["Enugu East", "Enugu North", "Enugu South", "Nsukka", "Udi"],
+  FCT: ["Abuja Municipal", "Gwagwalada", "Kuje", "Kwali"],
+  Gombe: ["Gombe", "Kaltungo"],
+  Imo: ["Owerri Municipal", "Owerri North", "Orlu"],
+  Jigawa: ["Dutse", "Hadejia"],
+  Kaduna: ["Kaduna North", "Kaduna South", "Zaria"],
+  Kano: ["Nassarawa", "Tarauni", "Fagge"],
+  Katsina: ["Katsina", "Daura"],
+  Kebbi: ["Birnin Kebbi", "Argungu"],
+  Kogi: ["Lokoja", "Okene"],
+  Kwara: ["Ilorin West", "Ilorin East"],
+  Lagos: ["Ikeja", "Lekki", "Eti-Osa", "Surulere", "Yaba"],
+  Nasarawa: ["Lafia", "Keffi"],
+  Niger: ["Minna", "Bida"],
   Ogun: ["Obafemi Owode", "Ado-Odo/Ota", "Sagamu", "Ifo"],
-  Lagos: ["Ikeja", "Lekki", "Eti-Osa", "Surulere"],
-  Enugu: ["Enugu East", "Enugu North", "Enugu South", "Nsukka"],
-  Oyo: ["Ibadan North", "Ibadan South-West", "Ogbomosho"]
+  Ondo: ["Akure South", "Owo"],
+  Osun: ["Osogbo", "Ile-Ife"],
+  Oyo: ["Ibadan North", "Ibadan South-West", "Ogbomosho"],
+  Plateau: ["Jos North", "Jos South"],
+  Rivers: ["Port Harcourt", "Obio-Akpor"],
+  Sokoto: ["Sokoto North", "Wamakko"],
+  Taraba: ["Jalingo", "Wukari"],
+  Yobe: ["Damaturu", "Potiskum"],
+  Zamfara: ["Gusau", "Kaura Namoda"]
 };
 
-/* ---------------- ELEMENTS ---------------- */
+/* ================= DOM ================= */
 
-const listings = document.getElementById("listings");
 const stateFilter = document.getElementById("stateFilter");
 const lgaFilter = document.getElementById("lgaFilter");
 const townFilter = document.getElementById("townFilter");
 const propertyTypeFilter = document.getElementById("propertyTypeFilter");
 
-/* ---------------- RENDER ---------------- */
-
-function displayHouses(data) {
-  listings.innerHTML = "";
-
-  if (data.length === 0) {
-    listings.innerHTML = "<p style='text-align:center'>No property found</p>";
-    return;
-  }
-
-  data.forEach(house => {
-    listings.innerHTML += `
-      <div class="card" onclick="openProperty(${house.id})">
-        <img src="${house.images[0]}" alt="${house.title}">
-        <div class="card-content">
-          <h3>${house.title}</h3>
-          <p><strong>Location:</strong> ${house.town}</p>
-          <p><strong>Price:</strong> ${house.price}</p>
-          <p><strong>Agent:</strong> ${house.agent}</p>
-        </div>
-      </div>
-    `;
-  });
-}
-
-function openProperty(id) {
-  localStorage.setItem(
-    "selectedProperty",
-    JSON.stringify(houses.find(h => h.id === id))
-  );
-  window.location.href = "property.html";
-}
-
-/* ---------------- STATE & LGA ---------------- */
+/* ================= POPULATE STATES ================= */
 
 Object.keys(nigeriaStatesLGAs).forEach(state => {
   const option = document.createElement("option");
   option.value = state;
-  option.textContent = state;
+  option.textContent = state.replace(/([A-Z])/g, " $1").trim();
   stateFilter.appendChild(option);
 });
+
+/* ================= FILTER FUNCTION ================= */
+
+function filterHouses() {
+  const state = stateFilter.value;
+  const lga = lgaFilter.value.toLowerCase();
+  const town = townFilter.value.toLowerCase();
+  const type = propertyTypeFilter.value;
+
+  const filtered = houses.filter(house =>
+    (state === "" || house.state === state) &&
+    (lga === "" || house.lga.toLowerCase() === lga) &&
+    house.town.toLowerCase().includes(town) &&
+    (type === "" || house.propertyType === type)
+  );
+
+  displayHouses(filtered);
+}
+
+/* ================= EVENTS ================= */
 
 stateFilter.addEventListener("change", () => {
   lgaFilter.innerHTML = `<option value="">Select Local Government</option>`;
@@ -325,43 +346,24 @@ stateFilter.addEventListener("change", () => {
   }
 
   nigeriaStatesLGAs[stateFilter.value].forEach(lga => {
-    const option = document.createElement("option");
-    option.value = lga;
-    option.textContent = lga;
-    lgaFilter.appendChild(option);
+    const opt = document.createElement("option");
+    opt.value = lga;
+    opt.textContent = lga;
+    lgaFilter.appendChild(opt);
   });
 
   lgaFilter.disabled = false;
   filterHouses();
 });
 
-/* ---------------- FILTER ---------------- */
-
-function filterHouses() {
-  const state = stateFilter.value;
-  const lga = lgaFilter.value;
-  const town = townFilter.value.toLowerCase();
-  const type = propertyTypeFilter.value;
-
-  const filtered = houses.filter(h =>
-    (state === "" || h.state === state) &&
-    (lga === "" || h.lga === lga) &&
-    h.town.toLowerCase().includes(town) &&
-    (type === "" || h.propertyType === type)
-  );
-
-  displayHouses(filtered);
-}
-
 lgaFilter.addEventListener("change", filterHouses);
 townFilter.addEventListener("input", filterHouses);
 propertyTypeFilter.addEventListener("change", filterHouses);
 
-/* ---------------- INIT ---------------- */
+/* ================= INIT ================= */
 
 displayHouses(houses);
 </script>
-
-
+  
 </body>
 </html>
