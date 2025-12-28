@@ -263,13 +263,13 @@ const houses = [
 const nigeriaStatesLGAs = {
   Abia: ["Aba North", "Aba South", "Arochukwu", "Bende", "Ikwuano"],
   Adamawa: ["Yola North", "Yola South", "Mubi North", "Mubi South"],
-  AkwaIbom: ["Uyo", "Eket", "Ikot Ekpene"],
+  Akwa Ibom: ["Uyo", "Eket", "Ikot Ekpene"],
   Anambra: ["Awka North", "Awka South", "Onitsha North", "Onitsha South"],
   Bauchi: ["Bauchi", "Katagum", "Misau"],
   Bayelsa: ["Yenagoa", "Brass", "Ogbia"],
   Benue: ["Makurdi", "Gboko", "Otukpo"],
   Borno: ["Maiduguri", "Jere", "Biu"],
-  CrossRiver: ["Calabar Municipal", "Calabar South", "Ogoja"],
+  Cross River: ["Calabar Municipal", "Calabar South", "Ogoja"],
   Delta: ["Warri South", "Warri North", "Sapele", "Asaba"],
   Ebonyi: ["Abakaliki", "Afikpo North"],
   Edo: ["Oredo", "Ikpoba-Okha", "Egor"],
@@ -312,9 +312,17 @@ const propertyTypeFilter = document.getElementById("propertyTypeFilter");
 Object.keys(nigeriaStatesLGAs).forEach(state => {
   const option = document.createElement("option");
   option.value = state;
-  option.textContent = state.replace(/([A-Z])/g, " $1").trim();
+  option.textContent = state;
   stateFilter.appendChild(option);
 });
+
+   Object.keys(nigeriaStatesLGAs).forEach(state => {
+  const option = document.createElement("option");
+  option.value = state;
+  option.textContent = state;
+  stateFilter.appendChild(option);
+});
+
 
 /* ================= FILTER FUNCTION ================= */
 
