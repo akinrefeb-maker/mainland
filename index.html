@@ -265,7 +265,7 @@ const houses = [
     ]
   },
   {
-    id: 1,
+    id: 2,
     title: "3 Bedroom Duplex",
     state: "Ogun",
     lga: "Obafemi Owode",
@@ -377,6 +377,15 @@ function filterHouses() {
   const lga = lgaFilter.value.toLowerCase();
   const town = townFilter.value.toLowerCase();
   const type = propertyTypeFilter.value;
+  const purpose = purposeFilter.value;
+
+  const filtered = houses.filter(house =>
+  (state === "" || house.state === state) &&
+  (lga === "" || house.lga.toLowerCase() === lga) &&
+  house.town.toLowerCase().includes(town) &&
+  (type === "" || house.propertyType === type) &&
+  (purpose === "" || house.purpose === purpose)
+);
 
   const filteredProperties = properties.filter(property => {
   return (
