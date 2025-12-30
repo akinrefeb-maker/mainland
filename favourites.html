@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Favourites</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<h2 style="text-align:center">❤️ My Favourite Properties</h2>
+
+<section id="listings" class="listings"></section>
+
+<script>
+const favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+const houses = JSON.parse(localStorage.getItem("houses_backup")) || [];
+
+const listings = document.getElementById("listings");
+
+const favHouses = houses.filter(h => favourites.includes(h.id));
+
+if (favHouses.length === 0) {
+  listings.innerHTML = "<p style='text-align:center'>No saved properties</p>";
+} else {
+  favHouses.forEach(house => {
+    listings.innerHTML += `
+      <div class="card">
+        <img src="${house.images[0]}">
+        <h3>${house.title}</h3>
+        <p>${house.town}, ${house.state}</p>
+        <p>${house.price}</p>
+      </div>
+    `;
+  });
+}
+</script>
+
+</body>
+</html>
