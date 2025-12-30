@@ -374,7 +374,7 @@ Object.keys(nigeriaStatesLGAs).forEach(state => {
 
 function filterHouses() {
   const state = stateFilter.value;
-  const lga = lgaFilter.value.toLowerCase();
+  const lga = lgaFilter.value ? lgaFilter.value.toLowerCase() : "";
   const town = townFilter.value.toLowerCase();
   const type = propertyTypeFilter.value;
   const purpose = purposeFilter.value;
@@ -386,15 +386,6 @@ function filterHouses() {
   (type === "" || house.propertyType === type) &&
   (purpose === "" || house.purpose === purpose)
 );
-
-  const filteredProperties = properties.filter(property => {
-  return (
-    (!stateFilter.value || property.state === stateFilter.value) &&
-    (!lgaFilter.value || property.lga === lgaFilter.value) &&
-    (!typeFilter.value || property.type === typeFilter.value) &&
-    (!purposeFilter.value || property.purpose === purposeFilter.value)
-  );
-});
 
   displayHouses(filtered);
 }
@@ -424,7 +415,7 @@ stateFilter.addEventListener("change", () => {
 lgaFilter.addEventListener("change", filterHouses);
 townFilter.addEventListener("input", filterHouses);
 propertyTypeFilter.addEventListener("change", filterHouses);
-purposeFilter.addEventListener("change", filterProperties);
+purposeFilter.addEventListener("change", filterHouses);
 
 /* ================= INIT ================= */
 
