@@ -201,6 +201,12 @@
     <option value="Condo">Condo</option>
     <option value="Bungalow">Bungalow</option>
   </select>
+  <select id="purposeFilter">
+  <option value="">Rent / Buy / Lease</option>
+  <option value="rent">Rent</option>
+  <option value="buy">Buy</option>
+  <option value="lease">Lease</option>
+</select>
 </section>
 
 
@@ -229,10 +235,29 @@ const houses = [
     lga: "Obafemi Owode",
     town: "Magboro",
     propertyType: "Mini-Flat",
+    purpose: "rent",
     location: "Magboro",
     price: "₦600,000 / year",
     agent: "Mr. Ade",
     phone: "08012345678",
+    images: [
+      "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+    ]
+  },
+   {
+    id: 1,
+    title: "3 Bedroom Duplex",
+    state: "Lagos",
+    lga: "Yaba",
+    town: "Alagomeji",
+    propertyType: "Duplex",
+    purpose: "lease",
+    location: "Mowe",
+    price: "₦1,000,000",
+    agent: "Mrs. Kemi",
+    phone: "08198765432",
     images: [
       "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
       "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
@@ -246,6 +271,7 @@ const houses = [
     lga: "Obafemi Owode",
     town: "Mowe",
     propertyType: "Duplex",
+    purpose: "buy",
     location: "Mowe",
     price: "₦25,000,000",
     agent: "Mrs. Kemi",
@@ -306,6 +332,7 @@ const stateFilter = document.getElementById("stateFilter");
 const lgaFilter = document.getElementById("lgaFilter");
 const townFilter = document.getElementById("townFilter");
 const propertyTypeFilter = document.getElementById("propertyTypeFilter");
+const purposeFilter = document.getElementById("purposeFilter");
 
 /* ================= POPULATE STATES ================= */
 
@@ -351,12 +378,14 @@ function filterHouses() {
   const town = townFilter.value.toLowerCase();
   const type = propertyTypeFilter.value;
 
-  const filtered = houses.filter(house =>
-    (state === "" || house.state === state) &&
-    (lga === "" || house.lga.toLowerCase() === lga) &&
-    house.town.toLowerCase().includes(town) &&
-    (type === "" || house.propertyType === type)
+  const filteredProperties = properties.filter(property => {
+  return (
+    (!stateFilter.value || property.state === stateFilter.value) &&
+    (!lgaFilter.value || property.lga === lgaFilter.value) &&
+    (!typeFilter.value || property.type === typeFilter.value) &&
+    (!purposeFilter.value || property.purpose === purposeFilter.value)
   );
+});
 
   displayHouses(filtered);
 }
@@ -386,6 +415,7 @@ stateFilter.addEventListener("change", () => {
 lgaFilter.addEventListener("change", filterHouses);
 townFilter.addEventListener("input", filterHouses);
 propertyTypeFilter.addEventListener("change", filterHouses);
+purposeFilter.addEventListener("change", filterProperties);
 
 /* ================= INIT ================= */
 
