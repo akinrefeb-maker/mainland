@@ -5,12 +5,56 @@
 <title>My Favourites</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+<style>
+  /* FAVOURITES PROPERTY CARD */
+.fav-card {
+  display: flex;
+  gap: 12px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
 
+/* IMAGE */
+.fav-card img {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+/* TEXT CONTENT */
+.fav-info {
+  flex: 1;
+}
+
+.fav-info h4 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+}
+
+.fav-info p {
+  margin: 2px 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+  @media (max-width: 480px) {
+  .fav-card img {
+    width: 100px;
+    height: 80px;
+  }
+}
+</style>
 <body>
 
 <h2 style="text-align:center">❤️ My Favourite Properties</h2>
 
 <section id="listings" class="listings"></section>
+
+  <div id="favouritesList"></div>
 
 <script>
 const favourites = JSON.parse(localStorage.getItem("favourites")) || [];
