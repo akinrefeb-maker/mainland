@@ -284,6 +284,24 @@ const houses = [
   }
 ];
 
+   function getFavourites() {
+  return JSON.parse(localStorage.getItem("favourites")) || [];
+}
+
+function toggleFavourite(id) {
+  let favs = getFavourites();
+
+  if (favs.includes(id)) {
+    favs = favs.filter(f => f !== id);
+    alert("Removed from favourites");
+  } else {
+    favs.push(id);
+    alert("Saved to favourites");
+  }
+
+  localStorage.setItem("favourites", JSON.stringify(favs));
+}
+
 /* ================= DATA ================= */
 
 const nigeriaStatesLGAs = {
@@ -361,9 +379,18 @@ Object.keys(nigeriaStatesLGAs).forEach(state => {
           <p><strong>Location:</strong> ${house.town}, ${house.state}</p>
           <p><strong>Price:</strong> ${house.price}</p>
           <p><strong>Agent:</strong> ${house.agent}</p>
-          <button onclick="event.stopPropagation(); window.open('https://wa.me/234${house.phone.substring(1)}','_blank')">
-            Contact Agent
-          </button>
+          <div style="display:flex; gap:8px;">
+  <button onclick="event.stopPropagation(); window.open('https://wa.me/234${house.phone.substring(1)}','_blank')">
+    Contact Agent
+  </button>
+
+  <button 
+    onclick="event.stopPropagation(); toggleFavourite(${house.id})"
+    style="background:#e5e7eb; color:#111;"
+  >
+    ❤️ Save
+  </button>
+</div>
         </div>
       </div>
     `;
