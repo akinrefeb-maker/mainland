@@ -181,6 +181,11 @@
   <header>
   <h1>Mainland</h1>
   <p>Rent • Buy • Lease</p>
+    <p>
+  <a href="favourites.html" style="color:#fff; text-decoration:underline;">
+    ❤️ View Saved Properties
+  </a>
+</p>
 </header>
 
 <section class="filters">
@@ -288,14 +293,16 @@ const houses = [
   return JSON.parse(localStorage.getItem("favourites")) || [];
 }
 
-function toggleFavourite(id) {
+function toggleFavourite(id, btn) {
   let favs = getFavourites();
 
   if (favs.includes(id)) {
     favs = favs.filter(f => f !== id);
+    btn.innerHTML = "❤️ Save";
     alert("Removed from favourites");
   } else {
     favs.push(id);
+    btn.innerHTML = "💔 Saved";
     alert("Saved to favourites");
   }
 
@@ -384,12 +391,12 @@ Object.keys(nigeriaStatesLGAs).forEach(state => {
     Contact Agent
   </button>
 
-  <button 
-    onclick="event.stopPropagation(); toggleFavourite(${house.id})"
-    style="background:#e5e7eb; color:#111;"
-  >
-    ❤️ Save
-  </button>
+<button 
+  onclick="event.stopPropagation(); toggleFavourite(${house.id}, this)"
+  style="background:#e5e7eb; color:#111;"
+>
+  ${getFavourites().includes(house.id) ? "💔 Saved" : "❤️ Save"}
+</button>
 </div>
         </div>
       </div>
