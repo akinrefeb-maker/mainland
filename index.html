@@ -417,6 +417,14 @@ townFilter.addEventListener("input", filterHouses);
 propertyTypeFilter.addEventListener("change", filterHouses);
 purposeFilter.addEventListener("change", filterHouses);
 
+function openProperty(id) {
+  // Save selected property ID
+  localStorage.setItem("selectedPropertyId", id);
+
+  // Redirect to property page
+  window.location.href = "property.html";
+}
+
 /* ================= INIT ================= */
 
 displayHouses(houses);
