@@ -294,11 +294,76 @@
   <div id="reviews"></div>
 </div>
 <script>
-const house = JSON.parse(localStorage.getItem("selectedProperty"));
+const propertyId = localStorage.getItem("selectedPropertyId");
+
+if (propertyId === null) {
+  document.body.innerHTML = "<h2 style='text-align:center'>Property not found</h2>";
+  throw new Error("No property ID found");
+}
+
+// SAME houses array MUST exist here
+const houses = [
+  {
+    id: 0,
+    title: "2 Bedroom Flat",
+    state: "Ogun",
+    lga: "Obafemi Owode",
+    town: "Magboro",
+    propertyType: "Mini-Flat",
+    purpose: "rent",
+    location: "Magboro",
+    price: "₦600,000 / year",
+    agent: "Mr. Ade",
+    phone: "08012345678",
+    images: [
+      "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+    ]
+  },
+  {
+    id: 1,
+    title: "3 Bedroom Duplex",
+    state: "Lagos",
+    lga: "Yaba",
+    town: "Alagomeji",
+    propertyType: "Duplex",
+    purpose: "lease",
+    location: "Mowe",
+    price: "₦1,000,000",
+    agent: "Mrs. Kemi",
+    phone: "08198765432",
+    images: [
+      "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+    ]
+  },
+  {
+    id: 2,
+    title: "3 Bedroom Duplex",
+    state: "Ogun",
+    lga: "Obafemi Owode",
+    town: "Mowe",
+    propertyType: "Duplex",
+    purpose: "buy",
+    location: "Mowe",
+    price: "₦25,000,000",
+    agent: "Mrs. Kemi",
+    phone: "08198765432",
+    images: [
+      "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
+    ]
+  }
+];
+
+const house = houses.find(h => h.id == propertyId);
 
 if (!house) {
   document.body.innerHTML = "<h2 style='text-align:center'>Property not found</h2>";
-  throw new Error("No property data found");
+  throw new Error("Property not found in list");
 }
 
   document.getElementById("title").textContent = house.title;
