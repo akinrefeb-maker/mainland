@@ -69,12 +69,14 @@ if (favHouses.length === 0) {
 } else {
   favHouses.forEach(house => {
     listings.innerHTML += `
-      <div class="card" onclick="openProperty(${house.id})" style="cursor:pointer;">
-        <img src="${house.images[0]}">
-        <h3>${house.title}</h3>
-        <p>${house.town}, ${house.state}</p>
-        <p>${house.price}</p>
-      </div>
+  <div class="fav-card" onclick="openProperty(${house.id})" style="cursor:pointer;">
+    <img src="${house.images[0]}" alt="${house.title}">
+    <div class="fav-info">
+      <h4>${house.title}</h4>
+      <p>${house.town}, ${house.state}</p>
+      <p>${house.price}</p>
+    </div>
+  </div>
     `;
   });
 }
