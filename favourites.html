@@ -6,6 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <style>
+  /* PAGE CONTAINER */
+.listings {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 12px;
+}
+
+/* PREVENT ANY IMAGE FROM OVERFLOWING */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
   /* FAVOURITES PROPERTY CARD */
 .fav-card {
   display: flex;
@@ -45,6 +59,16 @@
   .fav-card img {
     width: 100px;
     height: 80px;
+  }
+}
+  @media (max-width: 380px) {
+  .fav-card {
+    flex-direction: column;
+  }
+
+  .fav-card img {
+    width: 100%;
+    height: 160px;
   }
 }
 </style>
