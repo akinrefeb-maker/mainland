@@ -387,9 +387,12 @@ Object.keys(nigeriaStatesLGAs).forEach(state => {
           <p><strong>Price:</strong> ${house.price}</p>
           <p><strong>Agent:</strong> ${house.agent}</p>
           <div style="display:flex; gap:8px;">
-  <button onclick="event.stopPropagation(); window.open('https://wa.me/234${house.phone.substring(1)}','_blank')">
-    Contact Agent
-  </button>
+  <button 
+  onclick="event.stopPropagation(); revealPhone(this, '${house.phone}')"
+  class="contact-btn"
+>
+  📞 Contact Agent
+</button>
 
 <button 
   onclick="event.stopPropagation(); toggleFavourite(${house.id}, this)"
@@ -457,6 +460,12 @@ function openProperty(id) {
 
   // Redirect to property page
   window.location.href = "property.html";
+}
+
+   function revealPhone(button, phone) {
+  button.textContent = `📱 ${phone}`;
+  button.disabled = true;
+  button.style.background = "#16a34a";
 }
 
 /* ================= INIT ================= */
