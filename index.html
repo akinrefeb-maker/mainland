@@ -123,6 +123,12 @@
       background: #1d4ed8;
     }
 
+    .agent-contact {
+  background: #f8fafc;
+  padding: 8px;
+  border-radius: 8px;
+}
+
     /* Floating WhatsApp Button */
     .whatsapp-float {
       position: fixed;
@@ -387,11 +393,8 @@ Object.keys(nigeriaStatesLGAs).forEach(state => {
           <p><strong>Price:</strong> ${house.price}</p>
           <p><strong>Agent:</strong> ${house.agent}</p>
           <div style="display:flex; gap:8px;">
-  <button 
-  onclick="event.stopPropagation(); revealPhone(this, '${house.phone}')"
-  class="contact-btn"
->
-  📞 Contact Agent
+  <button onclick="event.stopPropagation(); toggleAgentContact(${house.id}, this)">
+  Contact Agent
 </button>
 
 <button 
@@ -473,6 +476,47 @@ function openProperty(id) {
 displayHouses(houses);
 
    localStorage.setItem("houses_backup", JSON.stringify(houses));
+
+   function toggleAgentContact(id, btn) {
+  const house = houses.find(h => h.id === id);
+
+  // Prevent duplicate rendering
+  if (btn.nextElementSibling && btn.nextElementSibling.classList.contains("agent-contact")) {
+    btn.nextElementSibling.remove();
+    return;
+  }
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "agent-contact";
+  wrapper.style.marginTop = "8px";
+  wrapper.style.fontSize = "14px";
+
+  // Phone number text
+  const phoneText = document.createElement("p");
+  phoneText.textContent = `📞 ${house.phone}`;
+  phoneText.style.margin = "4px 0";
+
+  wrapper.appendChild(phoneText);
+
+  // MOBILE ONLY — Call Now button
+  if (window.innerWidth <= 768) {
+    const callBtn = document.createElement("a");
+    callBtn.href = `tel:${house.phone}`;
+    callBtn.textContent = "📲 Call Now";
+    callBtn.style.display = "inline-block";
+    callBtn.style.marginTop = "6px";
+    callBtn.style.padding = "8px 12px";
+    callBtn.style.background = "#16a34a";
+    callBtn.style.color = "#fff";
+    callBtn.style.borderRadius = "6px";
+    callBtn.style.textDecoration = "none";
+    callBtn.style.fontSize = "14px";
+
+    wrapper.appendChild(callBtn);
+  }
+
+  btn.after(wrapper);
+}
 
 </script>
   
