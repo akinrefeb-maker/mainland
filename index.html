@@ -250,7 +250,7 @@ const houses = [
     location: "Magboro",
     price: "₦600,000 / year",
     agent: "Mr. Ade",
-    phone: "08012345678",
+    phone: "+2348012345678",
     images: [
       "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
       "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
@@ -268,7 +268,7 @@ const houses = [
     location: "Mowe",
     price: "₦1,000,000",
     agent: "Mrs. Kemi",
-    phone: "08198765432",
+    phone: "+2348198765432",
     images: [
       "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
       "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
@@ -286,7 +286,7 @@ const houses = [
     location: "Mowe",
     price: "₦25,000,000",
     agent: "Mrs. Kemi",
-    phone: "08198765432",
+    phone: "+2348198765432",
     images: [
       "https://images.unsplash.com/photo-1568605114967-8130f3a36994",
       "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
@@ -501,7 +501,11 @@ displayHouses(houses);
   // MOBILE ONLY — Call Now button
   if (window.innerWidth <= 768) {
     const callBtn = document.createElement("a");
-    callBtn.href = `tel:${house.phone}`;
+    const cleanNumber = house.phone.startsWith("0")
+  ? `+234${house.phone.slice(1)}`
+  : house.phone;
+
+callBtn.href = `tel:${cleanNumber}`;
     callBtn.textContent = "📲 Call Now";
     callBtn.style.display = "inline-block";
     callBtn.style.marginTop = "6px";
