@@ -129,6 +129,10 @@
   border-radius: 8px;
 }
 
+  .card-click {
+  cursor: pointer;
+}
+
     /* Floating WhatsApp Button */
     .whatsapp-float {
       position: fixed;
@@ -384,31 +388,34 @@ Object.keys(nigeriaStatesLGAs).forEach(state => {
   }
 
   data.forEach(house => {
-    listings.innerHTML += `
-      <div class="card" onclick="openProperty(${house.id})">
+  listings.innerHTML += `
+    <div class="card">
+      <div class="card-click" onclick="openProperty(${house.id})">
         <img src="${house.images[0]}" alt="${house.title}">
         <div class="card-content">
           <h3>${house.title}</h3>
           <p><strong>Location:</strong> ${house.town}, ${house.state}</p>
           <p><strong>Price:</strong> ${house.price}</p>
           <p><strong>Agent:</strong> ${house.agent}</p>
-          <div style="display:flex; gap:8px;">
-  <button onclick="event.stopPropagation(); toggleAgentContact(${house.id}, this)">
-  Contact Agent
-</button>
-
-<button 
-  onclick="event.stopPropagation(); toggleFavourite(${house.id}, this)"
-  style="background:#e5e7eb; color:#111;"
->
-  ${getFavourites().includes(house.id) ? "💔 Saved" : "❤️ Save"}
-</button>
-</div>
         </div>
       </div>
-    `;
-  });
-}
+
+      <div style="padding:16px; display:flex; gap:8px;">
+        <button onclick="toggleAgentContact(${house.id}, this)">
+          Contact Agent
+        </button>
+
+        <button 
+          onclick="toggleFavourite(${house.id}, this)"
+          style="background:#e5e7eb; color:#111;"
+        >
+          ${getFavourites().includes(house.id) ? "💔 Saved" : "❤️ Save"}
+        </button>
+      </div>
+    </div>
+  `;
+});
+
 
 /* ================= FILTER FUNCTION ================= */
 
