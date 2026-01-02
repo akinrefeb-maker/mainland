@@ -488,8 +488,18 @@ document.getElementById("water").textContent = "Not specified";
 document.getElementById("electricity").textContent = "Not specified";
 document.getElementById("comment").textContent = "Contact agent for details";
 
+const phoneNumber = `234${house.phone.substring(1)}`;
+
+const message = `
+${house.title}
+
+${house.images[0]}
+
+Is this still available?
+`;
+
 document.getElementById("whatsapp").href =
-  `https://wa.me/234${house.phone.substring(1)}`;
+  `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
 // Reviews
 function addReview() {
