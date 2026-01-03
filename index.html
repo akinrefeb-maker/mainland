@@ -224,6 +224,54 @@
         font-size: 24px;
       }
     }
+
+    .site-footer {
+  background: #0f172a;
+  color: #e5e7eb;
+  padding: 40px 20px 20px;
+  margin-top: 40px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.footer-section h4 {
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+  color: #ffffff;
+}
+
+.footer-section p,
+.footer-section a {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.footer-section a:hover {
+  color: #38bdf8;
+}
+
+.social-links a {
+  margin-right: 12px;
+  display: inline-block;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid #1e293b;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
   </style>
 </head>
 
@@ -285,6 +333,48 @@
   >
     💬
   </a>
+
+  <footer class="site-footer">
+  <div class="footer-container">
+
+    <div class="footer-section">
+      <h4>Mainland Properties</h4>
+      <p>
+        Your trusted platform for renting, buying, and leasing properties
+        across Lagos, Ogun, and beyond.
+      </p>
+    </div>
+
+    <div class="footer-section">
+      <h4>Contact Us</h4>
+      <p>📍 15 Adeola Street, Ikeja, Lagos</p>
+      <p>📞 +234 801 234 5678</p>
+      <p>✉️ info@mainlandproperties.ng</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <a href="index.html">Home</a>
+      <a href="favourites.html">Saved Properties</a>
+      <a href="#">List Your Property</a>
+      <a href="#">Advertise With Us</a>
+    </div>
+
+    <div class="footer-section">
+      <h4>Follow Us</h4>
+      <div class="social-links">
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">Twitter (X)</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © <span id="year"></span> Mainland Properties. All rights reserved.
+  </div>
+</footer>
 
  <script>
 /* ---------------- DATA ---------------- */
@@ -577,6 +667,7 @@ callBtn.href = `tel:${cleanNumber}`;
   btn.after(wrapper);
 }
 
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
   
 </body>
