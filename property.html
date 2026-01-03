@@ -245,6 +245,24 @@
   font-size: 30px;
   cursor: pointer;
 }
+    
+.report-btn {
+  display: block;
+  margin-top: 12px;
+  padding: 14px;
+  background: #dc2626;
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.report-btn:hover {
+  opacity: 0.95;
+}
+
   </style>
 </head>
 
@@ -287,11 +305,10 @@
     Contact Agent on WhatsApp
   </a>
 
-  <h3>Reviews</h3>
-  <textarea id="reviewText" placeholder="Write a review..."></textarea>
-  <button onclick="addReview()">Submit Review</button>
+  <a id="reportBtn" class="report-btn" target="_blank">
+  🚩 Report This Property
+</a>
 
-  <div id="reviews"></div>
 </div>
 <script>
 const propertyId = localStorage.getItem("selectedPropertyId");
@@ -500,6 +517,21 @@ Is this still available?
 
 document.getElementById("whatsapp").href =
   `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+  const reportMessage = `
+Hello Admin,
+
+I want to report this property/agent.
+
+🏠 Property: ${house.title}
+📍 Location: ${house.town}, ${house.state}
+
+Please investigate this listing.
+`.trim();
+
+document.getElementById("reportBtn").href =
+  `https://wa.me/2348134894858?text=${encodeURIComponent(reportMessage)}`;
+
 
 // Reviews
 function addReview() {
