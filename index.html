@@ -44,6 +44,60 @@
       opacity: 0.9;
     }
 
+    .nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.post-link {
+  background: #2563eb;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.menu-icon {
+  display: none;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  background: white;
+  position: absolute;
+  top: 60px;
+  right: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.mobile-menu a {
+  padding: 14px 18px;
+  text-decoration: none;
+  color: #0f172a;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.mobile-menu a:last-child {
+  border-bottom: none;
+}
+
+/* MOBILE ONLY */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .menu-icon {
+    display: block;
+  }
+}
+
+
     /* TEXT LOGO */
 .text-logo {
   text-align: center;
@@ -321,6 +375,17 @@
 </h1>
   <p>Rent • Buy • Lease</p>
     <p>
+      <nav class="nav-links">
+  <a href="saved.html">Saved Properties</a>
+  <a href="post-property.html" class="post-link">Post a Property</a>
+</nav>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="saved.html">Saved Properties</a>
+  <a href="post-property.html">Post a Property</a>
+</div>
+
   <a href="favourites.html" style="color:#fff; text-decoration:underline;">
     ❤️ View Saved Properties
   </a>
@@ -364,15 +429,6 @@
     <!-- Houses will appear here -->
   </section>
 
-  <!-- Floating WhatsApp for Agents -->
-  <a 
-    href="https://wa.me/2348012345678?text=Hello,%20I%20want%20to%20list%20my%20property%20on%20your%20website"
-    class="whatsapp-float"
-    target="_blank"
-    title="List your property"
-  >
-    💬
-  </a>
 
   <footer class="site-footer">
   <div class="footer-container">
@@ -895,6 +951,10 @@ Object.keys(nigeriaStatesLGAs).forEach(state => {
 });
 }
 
+function toggleMenu() {
+  const menu = document.getElementById("mobileMenu");
+  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
 
 /* ================= FILTER FUNCTION ================= */
 
