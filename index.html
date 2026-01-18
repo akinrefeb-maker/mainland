@@ -44,6 +44,22 @@
       opacity: 0.9;
     }
 
+    /* SITE LOGO */
+.site-logo {
+  height: 90px;
+  max-width: 260px;
+  width: auto;
+  margin-bottom: 10px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .site-logo {
+    height: 65px;
+    max-width: 200px;
+  }
+}
+
     .filters {
       display: flex;
       gap: 10px;
@@ -272,6 +288,10 @@
   font-size: 0.85rem;
   color: #94a3b8;
 }
+    .footer-logo {
+  height: 55px;
+  width: auto;
+}
   </style>
 </head>
 
@@ -279,10 +299,10 @@
 
   <header>
   <img 
-    src="PropConnect-Logo1.png" 
-    alt="PropConnect Logo" 
-    style="height:50px; margin-bottom:8px;"
-  >
+  src="PropConnect-Logo1.png" 
+  alt="PropConnect Logo" 
+  class="site-logo"
+/>
   <p>Rent • Buy • Lease</p>
     <p>
   <a href="favourites.html" style="color:#fff; text-decoration:underline;">
@@ -345,8 +365,8 @@
       <img 
   src="PropConnect-Logo1.png" 
   alt="PropConnect Logo" 
-  style="height:40px; margin-bottom:10px;"
->
+  class="footer-logo"
+/>
       <p>
         Your trusted platform for renting, buying, and leasing properties
         across Lagos, Ogun, and beyond.
